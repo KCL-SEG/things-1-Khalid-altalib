@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+
+from django.core.validators import MinValueValidator, MaxValueValidator
 import django.core.validators as validators
 
 """In this exercise, you are expected to extend the things app with a basic model that contains a few attributes. 
@@ -40,5 +42,8 @@ class Thing(models.Model):
     name = models.CharField(max_length=30, unique=True, blank=False)
     description = models.CharField(max_length=120, blank=True)
     # quantity must be an integer value between 0 and 100 (inclusive)
-    quantity = models.IntegerField(validators=[validate_quantity])
+    #quantity = models.IntegerField(validators=[validate_quantity])
+    quantity = models.IntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
 
